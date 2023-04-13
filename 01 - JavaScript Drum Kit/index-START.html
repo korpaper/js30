@@ -59,40 +59,65 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-  // 키 입력을 받았을 대 호출할 함수
-  function playSound(e) {
-    //audio의 data-key 속성 값을 가져와 audio 변수에 할당(div와 audio에 같은 속성이 있으므로 같이 연동된다고 보면 됨)
+  // // 키 입력을 받았을 대 호출할 함수
+  // function playSound(e) {
+  //   //audio의 data-key 속성 값을 가져와 audio 변수에 할당(div와 audio에 같은 속성이 있으므로 같이 연동된다고 보면 됨)
+  //   const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+  //   //class 가 key 인 요소의 data-key 속성 값을 가져와 key 변수에 할당
+  //   const key = document.querySelector(`.key[data-key="${e.keyCode}"]`); //애니메이션을 주기 위해 audio 가 아닌 div 를 선택함
+  //   if (!audio) return; // audio가 아니면 그대로 반환(함수가 종료)
+  //   audio.currentTime = 0; // 재생시간을 0으로 할당(재생이 끝나길 기다리지 않고 처음부터 실행)
+  //   // 입력받은 키에 해당하는 audio 의 src 실행
+  //   audio.play();
+  //   //키 누를 시 playing class 추가 (트랜스폼, 보더컬러, 박스쉐도우)
+  //   key.classList.add('playing');
+  // }
+  // // window 객체에 event 추가(키보드 눌렀을 때 playSound 함수 실행)
+  // window.addEventListener('keydown', playSound);
+
+  // //=> 0.07s 만에 remove
+  // function removeTransition(e) {
+  //   // console.log(e) 콘솔에서 어떤 걸 remove 할 지 속성명을 찾음.
+  //   // e.propertyName은 transition과 연관된 속성 이름이다.
+  //   // e.propertyName이 'transform'이 아니라면 함수 종료
+  //   if(e.propertyName !== 'transform') return; // propertyName 과 transform 이 같지 않다면 반환(힘수 종료)
+  //   // => propertyName 에 transform 이 있다면 함수 실행 => 그러니까 playing class remove.
+  //   this.classList.remove('playing');
+  //   //console.log(e)
+  // }
+  // // => 이 함수들은 css 에 적용된 transition 시간 동안 켜졌다 꺼졌다 한다.
+
+  // // class가 key인 태그들을 모두 가져와 변수 keys에 할당
+  // const keys = document.querySelectorAll('.key');
+  // /** 
+  //  keys 배열을 forEach 메서드를 이용해 배열 안의 key 요소들에 removeTransition함수를 실행하는 'transitionend'이벤트를 추가한다.
+  //  'transitionend'이벤트는 변화(css transition)가 끝났을 때 실행되는 이벤트이다.
+  //  */
+  // keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+  function playSound(e){
     const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-    //class 가 key 인 요소의 data-key 속성 값을 가져와 key 변수에 할당
-    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`); //애니메이션을 주기 위해 audio 가 아닌 div 를 선택함
-    if (!audio) return; // audio가 아니면 그대로 반환(함수가 종료)
-    audio.currentTime = 0; // 재생시간을 0으로 할당(재생이 끝나길 기다리지 않고 처음부터 실행)
-    // 입력받은 키에 해당하는 audio 의 src 실행
+    // 도대체 왜 키코드 속성을 가져와야만 효과가 다들어가냐???
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+
+    if(!audio) return;
+
+    audio.currentTime = 0;
+
     audio.play();
-    //키 누를 시 playing class 추가 (트랜스폼, 보더컬러, 박스쉐도우)
+    
     key.classList.add('playing');
   }
-  // window 객체에 event 추가(키보드 눌렀을 때 playSound 함수 실행)
   window.addEventListener('keydown', playSound);
 
-  //=> 0.07s 만에 remove
-  function removeTransition(e) {
-    // console.log(e) 콘솔에서 어떤 걸 remove 할 지 속성명을 찾음.
-    // e.propertyName은 transition과 연관된 속성 이름이다.
-    // e.propertyName이 'transform'이 아니라면 함수 종료
-    if(e.propertyName !== 'transform') return; // propertyName 과 transform 이 같지 않다면 반환(힘수 종료)
-    // => propertyName 에 transform 이 있다면 함수 실행 => 그러니까 playing class remove.
+  function removeTransition(e){
+    console.log(e)
+    if(e.propertyName !== 'transform') return;
+    
     this.classList.remove('playing');
-    //console.log(e)
   }
-  // => 이 함수들은 css 에 적용된 transition 시간 동안 켜졌다 꺼졌다 한다.
-
-  // class가 key인 태그들을 모두 가져와 변수 keys에 할당
+  
   const keys = document.querySelectorAll('.key');
-  /** 
-   keys 배열을 forEach 메서드를 이용해 배열 안의 key 요소들에 removeTransition함수를 실행하는 'transitionend'이벤트를 추가한다.
-   'transitionend'이벤트는 변화(css transition)가 끝났을 때 실행되는 이벤트이다.
-   */
   keys.forEach(key => key.addEventListener('transitionend', removeTransition));
 
 
