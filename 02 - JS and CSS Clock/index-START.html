@@ -63,12 +63,42 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
     }
 
   </style>
 
   <script>
+    const secondHand = document.querySelector('.second-hand');
+    const minHand = document.querySelector('.min-hand');
+    const hourHand = document.querySelector('.hour-hand');
 
+    //날짜를 만들어주는 함수
+    function setDate(){
+      //날짜 객체를 불러 온 후
+      const now = new Date();
+      // 거기서 현재 시간 분의 초를 불러옴
+      const seconds = now.getSeconds();
+      // 초침이 돌아가는 각도를 구하기 위해 초와 60을 나눈 후 360을 곱함 
+      // transform: rotate(90deg); 이 적용되어 있으니 +90 을 함
+      const secondsDegrees = ((seconds / 60) * 360) + 90;
+      // ${} : 속성 또는 변수를 가져오는 방법.
+      secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+      
+      const mins = now.getMinutes();
+      const minDegrees = ((mins / 60) * 360) + 90;
+      minHand.style.transform = `rotate(${minDegrees}deg)`
+      
+      const hours = now.getHours();
+      const hourDegrees = ((mins / 60) * 360) + 90;
+      hourHand.style.transform = `rotate(${hourDegrees}deg)`
+
+    }
+    //초침, 1초마다 실행
+    setInterval(setDate, 1000);
 
   </script>
 </body>
